@@ -1,0 +1,184 @@
+<meta name="viewport" http-equiv="Content-Type" content="width=device-width, initial-scale=1" charset="UTF-8">
+<html>
+<head>
+	<!-- favicon.ico -->
+	<link rel="icon" href="guessgame.png">
+	<title>
+		เกมทายใจ
+	</title>
+		
+	<style>
+		@font-face {
+		   font-family: Kanit;
+		   src: url(font/Kanit/Kanit-Regular.ttf);
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="css/guessgame.css">
+	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+
+</head>
+<body>
+	<header></header>
+	<div id="welcome">
+		<div class="article"><text><loading></loading><set>เกมทายใจ</set></text></div>
+		<p id="aaa" hidden></p>
+		<div class="ready"><button class="btn btn-xl go-game">เริ่มเกม</button></div>
+		<div class="ready"><button class="btn btn-xl go-instruction">คำอธิบายเกม</button></div>
+	</div>
+	<div id="instruction" class="is-hidden">
+		<div class="paragraph"><span>คำอธิบาย</span><p><ol><li>ให้ผู้เล่นเลือกรูปที่ตนเองชอบในใจ จำนวน 1 รูป</li><li>เมื่อเลือกรูปเรียบร้อยแล้ว จะมีบัตรทายใจ 4 ใบ ในแต่ละใบ ผู้เล่นจะต้องตอบว่า "มี" หรือ "ไม่มี" รูปที่ผู้เล่นเลือกไว้</li><li>เราจะทายว่าผู้เล่นเลือกรูปภาพใด</li></ol><p></div>
+		<div class="ready"><button class="btn btn-xl go-welcome">ย้อนกลับ</button></div>
+	</div>
+	<div id="game" class="is-hidden">
+		<div id="game0">
+			<div class="header1">① เลือกรูปที่ตนเองชอบไว้ในใจ</div>
+			<div>
+				<div id="g0" class="frameimage"></div>
+			</div>
+			<div class="ready"><button class="btn btn-xl go-game1">ฉันเลือกได้แล้ว</button></div>
+		</div>
+		<div id="game1" class="is-hidden">
+			<div class="header1">②.① มีรูปที่คุณชอบหรือไม่</div>
+			<div>
+				<div id="g1" class="frameimage-mini header1"></div>
+			</div>
+			<div class="ready">
+				<button class="btn btn-xl btn-red go-game2 say-no">ไม่มีรูป</button>
+				<button class="btn btn-xl btn-green go-game2 say-yes">มีรูป</button>
+			</div>
+		</div>
+		<div id="game2" class="is-hidden">
+			<div class="header1">②.② มีรูปที่คุณชอบหรือไม่</div>
+			<div>
+				<div id="g2" class="frameimage-mini header1"></div>
+			</div>
+			<div class="ready">
+				<button class="btn btn-xl btn-red go-game3 say-no">ไม่มีรูป</button>
+				<button class="btn btn-xl btn-green go-game3 say-yes">มีรูป</button>
+			</div>
+		</div>
+		<div id="game3" class="is-hidden">
+			<div class="header1">②.③ มีรูปที่คุณชอบหรือไม่</div>
+			<div>
+				<div id="g3" class="frameimage-mini header1"></div>
+			</div>
+			<div class="ready">
+				<button class="btn btn-xl btn-red go-game4 say-no">ไม่มีรูป</button>
+				<button class="btn btn-xl btn-green go-game4 say-yes">มีรูป</button>
+			</div>
+		</div>
+		<div id="game4" class="is-hidden">
+			<div class="header1">②.④ มีรูปที่คุณชอบหรือไม่</div>
+			<div>
+				<div id="g4" class="frameimage-mini header1"></div>
+			</div>
+			<div class="ready">
+				<button class="btn btn-xl btn-red go-answer say-no">ไม่มีรูป</button>
+				<button class="btn btn-xl btn-green go-answer say-yes">มีรูป</button>
+			</div>
+		</div>
+	</div>
+	<div id="answer" class="is-hidden">
+		<div class="header1">③ ขอทายว่ารูปที่คุณชอบคือ</div>
+		<div>
+			<div id="answerIs" class="frameimage-single header1"></div>
+		</div>
+		<div class="ready">
+			
+		</div>
+		<div class="ready">
+			<button class="btn btn-xl go-welcome">เล่นใหม่อีกครั้ง</button>
+		</div>
+		
+	</div>
+	<div class="trick is-hidden">
+		trick
+	</div>
+	<footer>Powered By b5730200811</footer>
+	<script type="text/javascript" src="js/guessgame.js"></script>
+	<script type="text/javascript">
+		
+		var imageset = [["marvel/","antman.png","blackpanther.png","captainamerica.png","deadpool.png","doctertrange.png","groot.png","hawkeye.png","hulk.png","ironman.png","rocket.png","spiderman.png","starlord.png","thanos.png","thor.png","wolverine.png"]];
+
+		var key_index = randomSeletedImage(imageset[0]);
+		var key_value = random15();
+
+		var image_path = "image/"+imageset[0][0];
+		
+		var i,j;
+		for(i=0;i<15;i++) {
+			makeImage(imageset[0][key_index[i]],image_path,'g0');
+		}
+		var key_binary = [];
+		for(i=0;i<15;i++){
+			var temp = num2binary(key_value[i]);
+			key_binary.push(temp);
+		}
+		for(i=1;i<=4;i++){
+			for(j=0;j<15;j++){
+				if(key_binary[j][i-1]=="1"){
+					var ref = "g"+i;
+					makeImage(imageset[0][key_index[j]],image_path,ref);
+				}
+			}
+		}
+		var answerIs = "";
+		document.getElementById('aaa').innerHTML += "["+key_value+"]";
+		document.getElementById('aaa').innerHTML += "{"+key_binary+"}";
+		
+		var someElement = document.getElementsByClassName("btn");
+		//Add an event listener to the DOM element 
+		for (var ii = 0; ii < someElement.length; ii++) {
+		    someElement[ii].addEventListener('click', function(event){
+				//Prevent the browser's default behavior
+				event.preventDefault();
+				var parant = this.parentNode;
+				parant.disbled = true;
+				//Every hacker movie ever can do this:
+				if(hasClass(this,'go-game')){
+					changePage(this,'game0');
+					changePage(this,'game');
+				}else if(hasClass(this,'go-instruction')){
+					changePage(this,'instruction');
+				}else if(hasClass(this,'go-welcome')){
+					answerIs="";
+					document.getElementById('answerIs').innerHTML = "";
+					changePage(this,'welcome');
+				}else if(hasClass(this,'go-game1')){
+					changePage(this,'game1');
+				}else if(hasClass(this,'go-game2')){
+					if(hasClass(this,'say-yes')){
+						add(true);
+					}else if(hasClass(this,'say-no')){
+						add(false);
+					}
+					changePage(this,'game2');
+				}else if(hasClass(this,'go-game3')){
+					if(hasClass(this,'say-yes')){
+						add(true);
+					}else if(hasClass(this,'say-no')){
+						add(false);
+					}
+					changePage(this,'game3');
+				}else if(hasClass(this,'go-game4')){
+					if(hasClass(this,'say-yes')){
+						add(true);
+					}else if(hasClass(this,'say-no')){
+						add(false);
+					}
+					changePage(this,'game4');
+				}else if(hasClass(this,'go-answer')){
+					if(hasClass(this,'say-yes')){
+						add(true);
+					}else if(hasClass(this,'say-no')){
+						add(false);
+					}
+					changePage(this,'answer');
+				}else{
+					alert(parant);
+				}
+			}, false);
+		}
+	</script>
+</body>
+</html>
